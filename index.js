@@ -5,6 +5,7 @@ const io = require("socket.io")(server)
 const mysql = require("mysql")
 const serverPort = 8080;
 
+
 app.get('/',(req,res)=>{
     res.sendFile(__dirname +"/public/views/chat.html")
 })
@@ -15,6 +16,7 @@ io.on('connection',(socket)=>{
     console.log("Socket Connected!")
     socket.on('newMessage',(newMessage)=>{
         console.log(newMessage)
+        io.sockets.emit("Update",newMessage)
     })
 })
 

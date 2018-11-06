@@ -6,10 +6,13 @@
     <script src="/socket.io/socket.io.js"></script>
 </head>
 <body>
-    <form >
-        <input type="text" id="message"><br>
-        <br><button onclick="sendMessage()">Submit</button>
-    </form>
+        <div id="chatroom" style="border: 5px inset rgb(99, 96, 109); height: 85%; overflow: auto;">
+        </div>
+        <div style="height: 7%; text-align: left; background-color: rgb(101, 99, 109);">
+            <input type="text" id="message"><br>
+            <br><button onclick="sendMessage()">Submit</button>
+        </div>
+    
     <script src="../codes/chat.js"></script>
 </body>
 </html>
