@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:8080');
+var socket = io.connect('10.7.50.243:80');
 var chatroom = document.getElementById("chatroom")
 function sendMessage(){
     let newMessage = document.getElementById("message").value

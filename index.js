@@ -1,9 +1,13 @@
 const express = require("express")
 const app = express()
 const server = require("http").Server(app)
-const io = require("socket.io")(server)
+const serverPort = 80
+server.listen(serverPort,()=>{
+    console.log("Server online and listening to port: " + serverPort)
+})
+
 const mysql = require("mysql")
-const serverPort = 8080;
+
 
 
 app.get('/',(req,res)=>{
@@ -12,6 +16,8 @@ app.get('/',(req,res)=>{
 app.get('/codes/chat.js',(req,res)=>{
     res.sendfile(__dirname + "/public/codes/chat.js")
 })
+
+const io = require("socket.io")(server)
 io.on('connection',(socket)=>{
     console.log("Socket Connected!")
     socket.on('newMessage',(newMessage)=>{
@@ -20,6 +26,4 @@ io.on('connection',(socket)=>{
     })
 })
 
-server.listen(serverPort,()=>{
-    console.log("Server online and listening to port: " + serverPort)
-})
+
