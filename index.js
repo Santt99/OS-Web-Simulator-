@@ -11,10 +11,7 @@ const mysql = require("mysql")
 
 
 app.get('/',(req,res)=>{
-    res.sendFile(__dirname +"/public/views/chat.html")
-})
-app.get('/codes/chat.js',(req,res)=>{
-    res.sendfile(__dirname + "/public/codes/chat.js")
+    res.sendFile(__dirname +"/public/views/login.html")
 })
 
 const io = require("socket.io")(server)
