@@ -13,6 +13,9 @@ const mysql = require("mysql")
 app.get('/',(req,res)=>{
     res.sendFile(__dirname +"/public/views/login.html")
 })
+app.get('/login_style.css',(req,res)=>{
+    res.sendFile(__dirname +"/public/styles/login_style.css")
+})
 
 const io = require("socket.io")(server)
 io.on('connection',(socket)=>{
