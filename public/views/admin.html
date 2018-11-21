@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Administrator Page</title>
+    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="..\styles\admin_style.css">
+  </head>
+  <body>
+    <h1>List of Users</h1>
+      <table id="table_table">
+            <tr>
+              <td class="tableHead">Usernames</td>
+              <td class="tableHead">Password</td>
+            </tr>
+      </table>
+      <hr>
+      Edit user
+      <form action="/admin/2" method="GET">
+        <input type="text" id="newUserName_input">
+        <input type="text" id="newUserPassword_input">
+        <button onclick="changeUserData()">change</button>
+      </form>
+      <hr>
+      <form action="/admin/2" method="GET">
+        <input type="text" id="deleteUser_input">
+        <button onclick="deleteUser()">Delete</button>
+      </form>
+      <script src="../codes/admin.js"></script>
+  </body>
+</html>

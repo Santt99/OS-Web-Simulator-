@@ -13,7 +13,33 @@
             <input type="text" id="message"><br>
             <br><button onclick="sendMessage()">Submit</button>
         </div>
-    
+        <table id="table_table2">
+                <tr>
+                    <td>File Name</td>
+                </tr>
+        </table>
+        <div id="edit_div">
+            <div id="changeU&P_div">
+                <hr>
+                Change Username or Password:  
+                <input type="text" id="newUserName_input" placeholder="New Username">
+                <input type="text" id="newUserPassword_input" placeholder="New Password">
+                <button onclick="changeUserData()">change</button>
+            </div>
+            
+            <div id="customSave_div">
+                <hr>
+                 Custom File:  
+                <form action="/chat/1" method="GET">
+                    <input type="text" id="fileName_input" placeholder="New File Name">
+                    <button onclick="saveChat(document.getElementById('fileName_input').value)">Save</button>   
+                    <button onclick="loadCustomChat(document.getElementById('fileName_input').value)">Load</button>
+                    <button onclick="deleteChat(document.getElementById('fileName_input').value)">Delete</button>
+                </form>
+                
+            </div>
+        </div>
+        
     <script src="../codes/chat.js"></script>
 </body>
 </html>
