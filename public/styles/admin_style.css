@@ -1,0 +1,57 @@
+h1{
+  text-align: center;
+}
+body{
+  font-family: Arial, Helvetica, sans-serif;
+}
+table, th, td{
+  text-align: center;
+  vertical-align: middle;
+  border: 10px solid #cc0000;
+}
+table{
+  border-collapse: collapse;
+  width: 100%;
+}
+td.tableHead{
+  padding: 8px;
+  background-color: #cc0000;
+  font-weight: bold;
+}
+td.tableBody1{
+  padding: 8px;
+  background-color: #ff9999;
+}
+td.tableBody2{
+  padding: 8px;
+  background-color: #ff4d4d;
+}
+td.buttonCeldTableBody1{
+  padding: 0px;
+  background-color: #ff9999;
+  width: 5%;
+}
+td.buttonCeldTableBody2{
+  padding: 0px;
+  background-color: #ff4d4d;
+  width: 5%;
+}
+input{
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  margin: 1% 1% 1% 1%; 
+  text-decoration: none;
+}
+input.editTableBody1{
+  background-color: #ff9999;
+}
+input.deleteTableBody1{
+  background-color: #ff9999;
+}
+input.editTableBody2{
+  background-color: #ff4d4d;
+}
+input.deleteTableBody2{
+  background-color: #ff4d4d;
+}

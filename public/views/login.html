@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+      <meta charset="utf-8" />
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <title>LogIn</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <!--Jquery-->
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="../styles/login_style.css">
+  </head>
+  <body>
+    <div>
+      <h1>Cool Chat!!</h1>
+      <table>
+        <tr>
+          <td colspan="3">LogIn</td>
+        </tr>
+        <tr>
+          <form action="/home" method="POST" id="login_form">
+            <td><input type="text" id="userName_input" name="userName" placeholder="User Name"></td>
+            <td><input type="password" id="userPass_input" name="userPass" placeholder="Password"></td>
+            <td><button id="send_button" type="submit">Log</button></td>
+          </form>
+        </tr>
+        <tr>
+          <td colspan="3">Register</td>
+        </tr>
+        <tr>
+          <form action="/register" method="POST">
+            <td><input type="text" id="newUserName_input" name="newUserName" placeholder="User Name"></td>
+            <td><input type="password" id="newUserPass_input" name="newUserPass" placeholder="Password"></td>
+            <td><button id="send_button" type="submit">Regist</button></td>
+          </form>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>

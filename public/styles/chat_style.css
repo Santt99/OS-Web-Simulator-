@@ -1,0 +1,14 @@
+#write_div{
+    height: 10%; 
+    width: 98%; 
+    text-align: left; 
+    background-color: rgb(101, 99, 109); 
+    margin: 1% 1% 1% 1%;
+}
+#chatroom_div{
+    border: 1px inset rgb(99, 96, 109); 
+    height: 400px; 
+    width: 98%; 
+    overflow: auto; 
+    margin: 1% 1% 1% 1%;
+}

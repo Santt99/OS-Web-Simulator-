@@ -4,15 +4,42 @@
     <meta charset="utf-8" />
     <title>Cool chat!</title>
     <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="../styles/chat_style.css">
 </head>
-<body>
-        <div id="chatroom" style="border: 5px inset rgb(99, 96, 109); height: 85%; overflow: auto;">
+<body style="margin: 0 0 0 0; padding: 0 0 0 0;">
+        <div id="chatroom_div" style="">
         </div>
-        <div style="height: 7%; text-align: left; background-color: rgb(101, 99, 109);">
+        <div id="write_div" style="">
             <input type="text" id="message"><br>
             <br><button onclick="sendMessage()">Submit</button>
         </div>
-    
+        <table id="table_table2">
+                <tr>
+                    <td>File Name</td>
+                </tr>
+        </table>
+        <div id="edit_div">
+            <div id="changeU&P_div">
+                <hr>
+                Change Username or Password:  
+                <input type="text" id="newUserName_input" placeholder="New Username">
+                <input type="text" id="newUserPassword_input" placeholder="New Password">
+                <button onclick="changeUserData()">change</button>
+            </div>
+            
+            <div id="customSave_div">
+                <hr>
+                 Custom File:  
+                <form action="/chat/1" method="GET">
+                    <input type="text" id="fileName_input" placeholder="New File Name">
+                    <button onclick="saveChat(document.getElementById('fileName_input').value)">Save</button>   
+                    <button onclick="loadCustomChat(document.getElementById('fileName_input').value)">Load</button>
+                    <button onclick="deleteChat(document.getElementById('fileName_input').value)">Delete</button>
+                </form>
+                
+            </div>
+        </div>
+        
     <script src="../codes/chat.js"></script>
 </body>
 </html>
