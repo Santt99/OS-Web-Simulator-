@@ -24,3 +24,9 @@ function deleteUser(){
     if(user == null) alert("write a correct username")
     socket.emit('deleteUser',user)
 }
+
+function newUser(){
+    let newUserName = document.getElementById("newUserName_input").value
+    let newUserPassword = document.getElementById("newUserPassword_input").value
+    socket.emit('newUser',newUserName,newUserPassword)
+}

@@ -198,6 +198,13 @@ io.on('connection',(socket)=>{
             if(err) throw err
         })
     })
+    socket.on('newUser',(newUserName,newUserPassword)=>{
+        let userType = "user"
+        con.query('INSERT INTO users.userData (userType,userName,userPassword) VALUES (' + mysql.escape(userType) + ','+ mysql.escape(newUserName) + ',' + mysql.escape(newUserPassword) +')',(err,result,fields)=>{
+            if(err) throw err
+    
+        })
+    })
     
 })
 

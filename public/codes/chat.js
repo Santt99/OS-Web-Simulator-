@@ -38,6 +38,7 @@ function loadCustomChat(fileName){
 function deleteChat(fileName){
     socket.emit('deleteFile',fileName)
 }
+
 socket.on('fileTable',(file)=>{
     tableC.innerHTML = "<tr><td>File Name</td></tr>"
     for(i in file){
