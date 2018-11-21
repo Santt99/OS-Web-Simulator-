@@ -4,11 +4,12 @@
     <meta charset="utf-8" />
     <title>Cool chat!</title>
     <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="../styles/chat_style.css">
 </head>
-<body>
-        <div id="chatroom" style="border: 5px inset rgb(99, 96, 109); height: 85%; overflow: auto;">
+<body style="margin: 0 0 0 0; padding: 0 0 0 0;">
+        <div id="chatroom_div" style="">
         </div>
-        <div style="height: 7%; text-align: left; background-color: rgb(101, 99, 109);">
+        <div id="write_div" style="">
             <input type="text" id="message"><br>
             <br><button onclick="sendMessage()">Submit</button>
         </div>
