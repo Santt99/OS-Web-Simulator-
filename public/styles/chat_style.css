@@ -1,14 +1,68 @@
+body{
+  background-color: #1B2429;
+}
+#message{
+  width: 100%;
+  font-family: 'Lucida Sans', Arial;
+  font-size: 2vw;
+  border: solid #1B2429;
+  background-color: #DCDCDC;
+}
+button{
+  width: 10%;
+  align: center;
+  font-size: 2vw;
+  cursor: pointer;
+  border: none;
+  text-decoration: none;
+  background-color: #1B2429;
+  color: white;
+}
 #write_div{
-    height: 10%; 
-    width: 98%; 
-    text-align: left; 
-    background-color: rgb(101, 99, 109); 
+    height: 10%;
+    width: 96.5%;
+    text-align: left;
+    background-color: #FE9627;
     margin: 1% 1% 1% 1%;
+    padding: 10px;
 }
 #chatroom_div{
-    border: 1px inset rgb(99, 96, 109); 
-    height: 400px; 
-    width: 98%; 
-    overflow: auto; 
+    border: 10px solid #1B2429;
+    height: 400px;
+    width: 96.5%;
+    background-color: #a2b7c3;
+    overflow: auto;
     margin: 1% 1% 1% 1%;
+}
+#edit_div{
+    width: 96.5%;
+    padding: 1%;
+    text-align: left;
+    font-family: 'Lucida Sans', Arial;
+    font-size: 2vw;
+    background-color: #1B2429;
+}
+#table{
+  padding: 10px;
+}
+#changeUP_div{
+  padding: 10px;
+}
+#customSave_div{
+  padding: 10px;
+}
+div{
+    width: 100%;
+    text-align: left;
+    font-family: 'Lucida Sans', Arial;
+    font-size: 2vw;
+    background-color: #FE9627;
+}
+input{
+  width: 100%;
+  height: 100%;
+  font-family: 'Lucida Sans', Arial;
+  font-size: 2vw;
+  border: solid #1B2429;
+  background-color: #DCDCDC;
 }

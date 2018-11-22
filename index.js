@@ -31,19 +31,13 @@ app.get('/',(req,res)=>{
 app.get('/styles/login_style.css',(req,res)=>{
     res.sendFile(__dirname +"/public/styles/login_style.css")
 })
+app.get('/UP.jpg',(req,res)=>{
+    res.sendFile(__dirname +"/public/views/UP.jpg")
+})
 
 //Chat Page
-app.get('/chat/:id',(req,res)=>{
-        if(req.params.id == 1){
-            con.query("SELECT fileName FROM users.savedchats WHERE ownerId=" + mysql.escape(ID) + " AND fileName <> 'autosave.html'",(err,result,fields)=>{
-                if(err) throw err
-                files = result
-            })
-            res.sendFile(__dirname + "/public/views/chat.html")
-        }else{
-            redirect('/')
-        }
-    
+app.get('/chat',(req,res)=>{
+    res.sendFile(__dirname + "/public/views/chat.html")
 })
 app.get('/styles/chat_style.css',(req,res)=>{
     res.sendFile(__dirname +"/public/styles/chat_style.css")
@@ -54,14 +48,14 @@ app.get('/codes/chat.js',(req,res)=>{
 })
 
 //Admin Page
-app.get('/admin/:id',(req,res)=>{
-    if(req.params.id == 2){
-        res.sendFile(__dirname + '/public/views/admin.html')
-        con.query("SELECT userName, userPassword FROM users.userdata WHERE userName <> 'admin' ",(err,result,fields)=>{
-        if(err) throw err
-        users = result;
-        })
-    }
+app.get('/admin',(req,res)=>{
+    
+    res.sendFile(__dirname + '/public/views/admin.html')
+    con.query("SELECT userName, userPassword FROM users.userdata WHERE userName <> 'admin' ",(err,result,fields)=>{
+    if(err) throw err
+    users = result;
+    })
+    
 })
 app.get('/styles/admin_style.css',(req,res)=>{
     res.sendFile(__dirname +"/public/styles/admin_style.css")
@@ -78,10 +72,14 @@ app.post('/home',(req,res)=>{
             ID = result[0].id
             if(result[0].userName == userName && result[0].userPassword == userPassword){
                 if(result[0].userType == "user"){
-                    res.redirect('/chat/1')
+                    res.redirect('/chat')
+                    con.query("SELECT fileName FROM users.savedchats WHERE ownerUsername=" + mysql.escape(userName) + " AND fileName <> 'autosave.html'",(err,result,fields)=>{
+                        if(err) throw err
+                        files = result
+                    })
                     res.end()
                 }else{
-                    res.redirect('/admin/2')
+                    res.redirect('/admin')
                     res.end()
                 }
                 
@@ -123,6 +121,10 @@ app.post('/register',(req,res)=>{
 
 io.on('connection',(socket)=>{
     socket.username = userName;
+    con.query("SELECT fileName FROM users.savedchats WHERE ownerUsername=" + mysql.escape(socket.username) + " AND fileName <> 'autosave.html'",(err,result,fields)=>{
+        if(err) throw err
+        files = result
+    })
     fs.readFile(__dirname + '/savedChats' + '/'+ socket.username + '/' + 'autosave.html','utf8',(err,data)=>{
         if(err){
             if(err.code = 'ENOENT'){
@@ -139,13 +141,19 @@ io.on('connection',(socket)=>{
         io.sockets.emit("Update",newMessage,socket.username)
     })
     socket.on('saveChat',(data,fileName)=>{
+        console.log(socket.username)
         fs.writeFile(__dirname + '/savedChats' + '/'+ socket.username + '/' + fileName,data,(err)=>{
-            if(err) throw err;
-            con.query('SELECT * FROM users.savedchats WHERE fileName=' + mysql.escape(fileName) + 'AND ownerId=' + mysql.escape(ID),(err,res,fields)=>{
+            if(err) console.log(err);
+            con.query('SELECT * FROM users.savedchats WHERE fileName=' + mysql.escape(fileName) + 'AND ownerUsername=' + mysql.escape(socket.username),(err,res,fields)=>{
                 if(err) throw err
                 if(res <= 0){
-                    con.query('INSERT INTO users.savedchats (ownerId,fileName) VALUES(' + mysql.escape(ID) + ',' + mysql.escape(fileName) + ')', (err)=>{
+                    con.query('INSERT INTO users.savedchats (ownerUsername,fileName) VALUES(' + mysql.escape(socket.username) + ',' + mysql.escape(fileName) + ')', (err)=>{
                         if(err) throw err;
+                        con.query("SELECT * FROM users.savedchats WHERE fileName <> 'autosave.html' AND ownerUsername=" + mysql.escape(socket.username),(err,res,fields)=>{
+                            if(err) throw err
+                            if(res > 0) files = res
+                        })
+                        socket.emit('fileTable',files)
                     })
                 }
             })
@@ -178,7 +186,11 @@ io.on('connection',(socket)=>{
         } )
     })
     socket.on('loadFiles',()=>{
-        
+        console.log(socket.username)
+        con.query("SELECT * FROM users.savedchats WHERE fileName <> 'autosave.html' AND ownerUsername=" + mysql.escape(socket.username),(err,res,fields)=>{
+            if(err) throw err
+            if(res > 0) files = res
+        })
         socket.emit('fileTable',files)
         
     })
@@ -194,9 +206,15 @@ io.on('connection',(socket)=>{
         })
     })
     socket.on('deleteFile',(fileName)=>{
-        con.query('DELETE FROM users.savedchats WHERE fileName=' + mysql.escape(fileName) +' AND ownerId=' + mysql.escape(ID),(err)=>{
+        con.query('DELETE FROM users.savedchats WHERE fileName=' + mysql.escape(fileName) +' AND ownerUsername=' + mysql.escape(socket.username),(err)=>{
             if(err) throw err
+            con.query("SELECT * FROM users.savedchats WHERE fileName <> 'autosave.html' AND ownerUsername=" + mysql.escape(socket.username),(err,res,fields)=>{
+                if(err) throw err
+                if(res > 0) files = res
+            })
+            socket.emit('fileTable',files)
         })
+
     })
     socket.on('newUser',(newUserName,newUserPassword)=>{
         let userType = "user"
@@ -204,7 +222,9 @@ io.on('connection',(socket)=>{
             if(err) throw err
     
         })
+        fs.mkdir(__dirname + '/savedChats/' + newUserName,(err)=>{
+            if(err) throw err;
+        })
     })
-    
 })
 

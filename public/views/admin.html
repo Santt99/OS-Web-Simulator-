@@ -14,19 +14,22 @@
               <td class="tableHead">Password</td>
             </tr>
       </table>
-      <hr>
-      Edit or Create User
-      <form action="/admin/2" method="GET">
-        <input type="text" id="newUserName_input">
-        <input type="text" id="newUserPassword_input">
-        <button onclick="changeUserData()">Change</button>   
-        <button onclick="newUser()">Create</button>
-      </form>
-      <hr>
-      <form action="/admin/2" method="GET">
-        <input type="text" id="deleteUser_input">
-        <button onclick="deleteUser()">Delete</button>
-      </form>
+      <div>
+        Edit or Create User
+        <form action="/admin" method="GET">
+          <input class:"textAreaDiv" type="text" id="newUserName_input" placeholder="New Username">
+          <input class:"textAreaDiv" type="text" id="newUserPassword_input" placeholder="New Password">
+          <button class:"buttonDiv" onclick="changeUserData()">Change</button>
+          <button class:"buttonDiv" onclick="newUser()">Create</button>
+        </form>
+      </div>
+      <div>
+        Delete User
+        <form action="/admin" method="GET">
+          <input type="text" id="deleteUser_input" placeholder="Username to Delete">
+          <button onclick="deleteUser()">Delete</button>
+        </form>
+      </div>
       <script src="../codes/admin.js"></script>
   </body>
 </html>

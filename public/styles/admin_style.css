@@ -1,13 +1,26 @@
+body{
+  background-color: #1B2429;
+  font-family: Arial, Helvetica, sans-serif;
+}
 h1{
   text-align: center;
+  font-family: 'Lato', sans-serif;
+  font-size: 4vw;
+  color: white;
 }
-body{
-  font-family: Arial, Helvetica, sans-serif;
+div{
+  padding: 1%;
+  border: 5px solid #1B2429;
+  text-align: left;
+  font-family: 'Lucida Sans', Arial;
+  font-size: 2vw;
+  background-color: #FE9627;
+  width: 45%;
 }
 table, th, td{
   text-align: center;
   vertical-align: middle;
-  border: 10px solid #cc0000;
+  border: 5px solid #1B2429;
 }
 table{
   border-collapse: collapse;
@@ -15,43 +28,37 @@ table{
 }
 td.tableHead{
   padding: 8px;
-  background-color: #cc0000;
+  background-color: #FE9627;
+  font-family: 'Lato', sans-serif;
   font-weight: bold;
+  font-size: 2.5vw;
 }
 td.tableBody1{
   padding: 8px;
-  background-color: #ff9999;
+  font-family: 'Lusida Sans', Arial;
+  font-size: 2vw;
+  background-color: #feb567;
 }
 td.tableBody2{
   padding: 8px;
-  background-color: #ff4d4d;
-}
-td.buttonCeldTableBody1{
-  padding: 0px;
-  background-color: #ff9999;
-  width: 5%;
-}
-td.buttonCeldTableBody2{
-  padding: 0px;
-  background-color: #ff4d4d;
-  width: 5%;
+  font-family: 'Lusida Sans', Arial;
+  font-size: 2vw;
+  background-color: #a2b7c3;
 }
 input{
+  width: 50%;
+  font-family: 'Lucida Sans', Arial;
+  font-size: 2vw;
+  border: solid #1B2429;
+  background-color: #DCDCDC;
+}
+button{
+  width: 20%;
+  align: center;
+  font-size: 2vw;
   cursor: pointer;
-  width: 100%;
-  height: 100%;
-  margin: 1% 1% 1% 1%; 
+  border: none;
   text-decoration: none;
-}
-input.editTableBody1{
-  background-color: #ff9999;
-}
-input.deleteTableBody1{
-  background-color: #ff9999;
-}
-input.editTableBody2{
-  background-color: #ff4d4d;
-}
-input.deleteTableBody2{
-  background-color: #ff4d4d;
+  background-color: #1B2429;
+  color: white;
 }
