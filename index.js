@@ -1,4 +1,5 @@
 const bodyParser = require("body-parser")
+const empty = require('empty-folder');
 const mysql = require("mysql")
 const fs = require('fs');
 const express = require("express")
@@ -24,6 +25,8 @@ con.connect(function(err) {
     if (err) throw err;
     console.log("Connected!");
 });
+app.set('views', __dirname + './public/views');
+app.engine('html', require('ejs').renderFile);
 //Main Page
 app.get('/',(req,res)=>{
     res.sendFile(__dirname +"/public/views/login.html")
@@ -35,10 +38,7 @@ app.get('/UP.jpg',(req,res)=>{
     res.sendFile(__dirname +"/public/views/UP.jpg")
 })
 
-//Chat Page
-app.get('/chat',(req,res)=>{
-    res.sendFile(__dirname + "/public/views/chat.html")
-})
+//Chat Page Resources
 app.get('/styles/chat_style.css',(req,res)=>{
     res.sendFile(__dirname +"/public/styles/chat_style.css")
 })
@@ -47,22 +47,15 @@ app.get('/codes/chat.js',(req,res)=>{
     res.sendfile(__dirname + "/public/codes/chat.js")
 })
 
-//Admin Page
-app.get('/admin',(req,res)=>{
-    
-    res.sendFile(__dirname + '/public/views/admin.html')
-    con.query("SELECT userName, userPassword FROM users.userdata WHERE userName <> 'admin' ",(err,result,fields)=>{
-    if(err) throw err
-    users = result;
-    })
-    
-})
+//Admin Page Reusorces
 app.get('/styles/admin_style.css',(req,res)=>{
     res.sendFile(__dirname +"/public/styles/admin_style.css")
 })
 app.get('/codes/admin.js',(req,res)=>{
     res.sendfile(__dirname + "/public/codes/admin.js")
 })
+
+
 app.post('/home',(req,res)=>{
     userName = req.body.userName
     let userPassword = req.body.userPass
@@ -72,17 +65,24 @@ app.post('/home',(req,res)=>{
             ID = result[0].id
             if(result[0].userName == userName && result[0].userPassword == userPassword){
                 if(result[0].userType == "user"){
-                    res.redirect('/chat')
+                    res.render(__dirname + "/public/views/chat.html")
                     con.query("SELECT fileName FROM users.savedchats WHERE ownerUsername=" + mysql.escape(userName) + " AND fileName <> 'autosave.html'",(err,result,fields)=>{
                         if(err) throw err
                         files = result
                     })
-                    res.end()
+                    
                 }else{
-                    res.redirect('/admin')
-                    res.end()
+                    res.render(__dirname + '/public/views/admin.html')
+                    con.query("SELECT userName, userPassword FROM users.userdata WHERE userName <> 'admin' ",(err,result,fields)=>{
+                    if(err) throw err
+                    users = result;
+                    })
                 }
-                
+                res.sendFile(__dirname + '/public/views/admin.html')
+            con.query("SELECT userName, userPassword FROM users.userdata WHERE userName <> 'admin' ",(err,result,fields)=>{
+            if(err) throw err
+            users = result;
+    })
             }else{
                 res.redirect('/')
                 res.end()
@@ -94,6 +94,8 @@ app.post('/home',(req,res)=>{
     })
     
 })
+
+
 app.post('/register',(req,res)=>{
     let newUserName = req.body.newUserName
     let newUserPassword = req.body.newUserPass
@@ -181,9 +183,16 @@ io.on('connection',(socket)=>{
         con.query('DELETE FROM users.userdata WHERE userName=' + mysql.escape(user),(err)=>{
             if(err) throw err
         })
-        fs.rename(__dirname + '/savedChats' + '/' + user, __dirname + '/savedChats' + '/' + user + '_old',(err)=>{
+        con.query("SELECT userName, userPassword FROM users.userdata WHERE userName <> 'admin' ",(err,result,fields)=>{
             if(err) throw err
-        } )
+            users = result;
+            socket.emit('load',users)
+        })
+        
+        empty(__dirname + '/savedChats' + '/' + user,true,(err)=>{
+            if(err.error) console.log(err.error) 
+        })
+        
     })
     socket.on('loadFiles',()=>{
         console.log(socket.username)
