@@ -7,37 +7,11 @@
     <link rel="stylesheet" href="../styles/chat_style.css">
 </head>
 <body style="margin: 0 0 0 0; padding: 0 0 0 0;">
-        <div class:"chatRoomDiv" id="chatroom_div" style="">
-        </div>
-        <div class:"writeDiv" id="write_div" style="">
-            <input type="text" id="message" placeholder="Write a message">
-            <button onclick="sendMessage()">Submit</button>
-        </div>
-        <div id="edit_div">
-              <div id="table">
-                <table id="table_table2">
-                        <tr>
-                            <td>File Name</td>
-                        </tr>
-                </table>
-              </div>
-            <br>
-            <div id="changeUP_div">
-                Change Username or Password:
-                <input type="text" id="newUserName_input" placeholder="New Username">
-                <input type="text" id="newUserPassword_input" placeholder="New Password">
-                <button onclick="changeUserData()">change</button>
-            </div>
-            <br>
-            <div id="customSave_div">
-                 Costum File:
-                  <input type="text" id="fileName_input" placeholder="New File Name">
-                  <button onclick="saveChat(document.getElementById('fileName_input').value)">Save</button>
-                  <button onclick="loadCustomChat(document.getElementById('fileName_input').value)">Load</button>
-                  <button onclick="deleteChat(document.getElementById('fileName_input').value)">Delete</button>
-            </div>
-        </div>
-
+    <div  id="chatroom_div" style=""></div>
+    <div id="write_div" style="">
+        <input type="text" id="message" placeholder="Write a message">
+        <button onclick="sendMessage()">Submit</button>
+    </div>
     <script src="../codes/chat.js"></script>
 </body>
 </html>

@@ -110,7 +110,7 @@ app.post('/register',(req,res)=>{
                 res.redirect('/')
             })
             fs.mkdir(__dirname + '/savedChats/' + newUserName,(err)=>{
-                if(err) throw err;
+                if(err) console.log(err);
             })
             
            

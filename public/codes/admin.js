@@ -1,4 +1,4 @@
-var socket = io.connect('http://10.7.49.42:8080', { 'forceNew': true });
+var socket = io.connect('http://localhost:8080', { 'forceNew': true });
 
 socket.emit('loadTable')
 let table = document.getElementById('table_table')
