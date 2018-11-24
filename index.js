@@ -8,7 +8,9 @@ const serverPort = 8080
 var users
 var userName
 var files
-var ID
+app.set('views', __dirname + '/views');
+app.engine('html', require('ejs').renderFile);
+
 server.listen(serverPort,()=>{
     console.log("Server online and listening to port: " + serverPort)
 })
@@ -31,14 +33,16 @@ app.get('/',(req,res)=>{
 app.get('/styles/login_style.css',(req,res)=>{
     res.sendFile(__dirname +"/public/styles/login_style.css")
 })
-app.get('/UP.jpg',(req,res)=>{
-    res.sendFile(__dirname +"/public/views/UP.jpg")
+
+//Signin Page
+app.get('/signin',(req,res)=>{
+    res.render(__dirname +"/public/views/signin.html")
+})
+app.get('/styles/signin_style.css',(req,res)=>{
+    res.sendFile(__dirname +"/public/styles/signin_style.css")
 })
 
-//Chat Page
-app.get('/chat',(req,res)=>{
-    res.sendFile(__dirname + "/public/views/chat.html")
-})
+//Chat Page Resourses
 app.get('/styles/chat_style.css',(req,res)=>{
     res.sendFile(__dirname +"/public/styles/chat_style.css")
 })
@@ -47,16 +51,6 @@ app.get('/codes/chat.js',(req,res)=>{
     res.sendfile(__dirname + "/public/codes/chat.js")
 })
 
-//Admin Page
-app.get('/admin',(req,res)=>{
-    
-    res.sendFile(__dirname + '/public/views/admin.html')
-    con.query("SELECT userName, userPassword FROM users.userdata WHERE userName <> 'admin' ",(err,result,fields)=>{
-    if(err) throw err
-    users = result;
-    })
-    
-})
 app.get('/styles/admin_style.css',(req,res)=>{
     res.sendFile(__dirname +"/public/styles/admin_style.css")
 })
@@ -72,15 +66,17 @@ app.post('/home',(req,res)=>{
             ID = result[0].id
             if(result[0].userName == userName && result[0].userPassword == userPassword){
                 if(result[0].userType == "user"){
-                    res.redirect('/chat')
+                    res.render(__dirname + '/public/views/chat.html')
                     con.query("SELECT fileName FROM users.savedchats WHERE ownerUsername=" + mysql.escape(userName) + " AND fileName <> 'autosave.html'",(err,result,fields)=>{
                         if(err) throw err
                         files = result
                     })
-                    res.end()
                 }else{
-                    res.redirect('/admin')
-                    res.end()
+                    res.render(__dirname + '/public/views/admin.html')
+                    con.query("SELECT userName, userPassword FROM users.userdata WHERE userName <> 'admin' ",(err,result,fields)=>{
+                    if(err) throw err
+                    users = result;
+                    })
                 }
                 
             }else{
@@ -107,14 +103,13 @@ app.post('/register',(req,res)=>{
             con.query('INSERT INTO users.userData (userType,userName,userPassword) VALUES (' + mysql.escape(userType) + ','+ mysql.escape(newUserName) + ',' + mysql.escape(newUserPassword) +')',(err,result,fields)=>{
                 if(err) throw err
         
-                res.redirect('/')
             })
             fs.mkdir(__dirname + '/savedChats/' + newUserName,(err)=>{
                 if(err) console.log(err);
+                res.redirect('/')
             })
-            
-           
         }
+        
     })
     
 })
@@ -141,7 +136,6 @@ io.on('connection',(socket)=>{
         io.sockets.emit("Update",newMessage,socket.username)
     })
     socket.on('saveChat',(data,fileName)=>{
-        console.log(socket.username)
         fs.writeFile(__dirname + '/savedChats' + '/'+ socket.username + '/' + fileName,data,(err)=>{
             if(err) console.log(err);
             con.query('SELECT * FROM users.savedchats WHERE fileName=' + mysql.escape(fileName) + 'AND ownerUsername=' + mysql.escape(socket.username),(err,res,fields)=>{

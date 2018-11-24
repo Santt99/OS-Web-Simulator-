@@ -10,29 +10,13 @@
       <link rel="stylesheet" href="../styles/login_style.css">
   </head>
   <body>
-    <div>
-      <h1>Cool Chat!!</h1>
-      <table>
-        <tr>
-          <td colspan="3">LogIn</td>
-        </tr>
-        <tr>
-          <form action="/home" method="POST" id="login_form">
-            <td><input type="text" id="userName_input" name="userName" placeholder="User Name"></td><br>
-            <td><input type="password" id="userPass_input" name="userPass" placeholder="Password"></td>
-            <td><button type="submit">Log</button></td>
-          </form>
-        </tr>
-        <tr>
-          <td colspan="3">Register</td>
-        </tr>
-        <tr>
-          <form action="/register" method="POST">
-            <td><input type="text" id="newUserName_input" name="newUserName" placeholder="User Name"></td>
-            <td><input type="password" id="newUserPass_input" name="newUserPass" placeholder="Password"></td>
-            <td><button type="submit">Regist</button></td>
-          </form>
-        </tr>
-      </table>
+    <div id="login_div">
+      <form action="/home" method="POST" id="login_form">
+        <input type="text" id="userName_input" name="userName" placeholder="User Name">
+        <input type="password" id="userPass_input" name="userPass" placeholder="Password"><br>
+        <br><button type="submit" id="login_button">Login</button> <button type="reset" id="delete_button">Delete</button>
+        <a href="/signin" id="signin_link">Sign in</a>
+      </form>
+    </div>
   </body>
 </html>

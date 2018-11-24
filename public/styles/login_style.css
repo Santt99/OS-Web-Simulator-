@@ -1,67 +1,72 @@
 body{
-  background-color: #1B2429;
+  background-color: white;
+  padding: 0 0 0 0;
+  margin: 0 0 0 0;
 }
-div{
-    width: 70%;
-    height: 50%;
-    padding-left: 15%;
-    padding-top: 5%;
-  }
-#datos{
-    background-color: #FE9627;
-    width: 14%;
-    padding-left: 0px;
-    padding: 10px;
+#login_div{
+  height: 400px;
+  width: 50%;
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-top: 10%;
+  padding-top: 5%;
+  padding-right: 5%;
+  padding-left: 5%;
 }
-img{
-  width: 80%;
+
+#userName_input{
+  height: 40px;
+  width: 60%;
+  text-align: justify;
+  background-color: white;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 1%;
+  margin-bottom: 1%; 
+  font-family: 'Lucida Sans', Arial;
 }
-  h1{
-    font-family: 'Lato', sans-serif;
-    text-align: center;
-    vertical-align: middle;
-    font-size: 5vw;
-    color: white;
-  }
-  table, th, td{
-    text-align: center;
-    vertical-align: middle;
-    border: 10px solid 	#FE9627;
-  }
-  table{
-    width: 100%;
-    height: 100%;
-    position: static;
-    top: 30px;
-    border-collapse: collapse;
-    height: 100%;
-  }
-  tr{
-    height: 25%;
-  }
-  td{
-    width: 49%;
-    padding: 0px;
-    background-color: #FE9627;
-    font-size: 3vw;
-    font-family: 'Lucida Sans', Arial;
-  }
-  button{
-    width: 2%;
-    font-size: 2vw;
-    cursor: pointer;
-    width: 100%;
-    height: 100%;
-    border: none;
-    text-decoration: none;
-    background-color: #1B2429;
-    color: white;
-  }
-  input{
-    width: 100%;
-    height: 100%;
-    font-family: 'Lucida Sans', Arial;
-    font-size: 4vw;
-    border: solid #1B2429;
-    background-color: #DCDCDC;
-  }
+#userPass_input{
+  height: 40px;
+  width: 60%;
+  text-align: justify;
+  background-color: white;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  font-family: 'Lucida Sans', Arial;
+}
+#login_button{
+  font-family: 'Lucida Sans', Arial;
+  width: auto;
+  font-size: 2vw;
+  cursor: pointer;
+  border: 1px solid gray;
+  text-decoration: none;
+  background-color: gray;
+  color: white;
+  padding: 1% 1% 1% 1%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  margin-left: 10%;
+}
+#delete_button{
+  font-family: 'Lucida Sans', Arial;
+  width: auto;
+  font-size: 2vw;
+  cursor: pointer;
+  border: 1px solid gray;
+  text-decoration: none;
+  background-color: gray;
+  color: white;
+  padding: 1% 1% 1% 1%;
+  margin-top: 1%;
+  margin-bottom: 1%;
+  margin-left: 2%;
+  margin-right: 20%
+}
+#signin_link{
+  font-family: 'Lucida Sans', Arial;
+  margin-top: 2%;
+  text-align: justify
+}
