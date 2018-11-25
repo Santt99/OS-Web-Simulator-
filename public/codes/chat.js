@@ -1,10 +1,14 @@
 var socket = io.connect('http://localhost:8080', { 'forceNew': true });
 var chatroom = document.getElementById("chatroom_div")
-
-function sendMessage(){
-    let newMessage = document.getElementById("message").value
-    socket.emit('newMessage',newMessage)
-    
+let newMessage = document.getElementById("message")
+newMessage.addEventListener('keypress', function(e){
+    if (e.keyCode == 13) {
+      sendMessage() 
+    }
+  });
+function sendMessage(){ 
+    socket.emit('newMessage',newMessage.value)
+    newMessage.value = "";
 }
 socket.on('Update',(message,username)=>{
     chatroom.innerHTML += "<p class='message'>" + username + ": " + message + "</p>"
@@ -20,5 +24,4 @@ setInterval(() => {
 
 function saveChat(fileName){
     socket.emit('saveChat',chatroom.innerHTML,fileName)
-    filesB();
 }
