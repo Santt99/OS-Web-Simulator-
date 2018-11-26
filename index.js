@@ -78,11 +78,6 @@ app.post('/home',(req,res)=>{
                     users = result;
                     })
                 }
-                res.sendFile(__dirname + '/public/views/admin.html')
-            con.query("SELECT userName, userPassword FROM users.userdata WHERE userName <> 'admin' ",(err,result,fields)=>{
-            if(err) throw err
-            users = result;
-    })
             }else{
                 res.redirect('/')
                 res.end()
