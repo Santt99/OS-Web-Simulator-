@@ -50,14 +50,14 @@ app.get('/styles/chat_style.css',(req,res)=>{
 })
 
 app.get('/codes/chat.js',(req,res)=>{
-    res.sendfile(__dirname + "/public/codes/chat.js")
+    res.sendFile(__dirname + "/public/codes/chat.js")
 })
 
 app.get('/styles/admin_style.css',(req,res)=>{
     res.sendFile(__dirname +"/public/styles/admin_style.css")
 })
 app.get('/codes/admin.js',(req,res)=>{
-    res.sendfile(__dirname + "/public/codes/admin.js")
+    res.sendFile(__dirname + "/public/codes/admin.js")
 })
 app.post('/home',(req,res)=>{
     userName = req.body.userName
