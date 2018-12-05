@@ -26,6 +26,17 @@ body{
     margin-bottom: 1%; 
     font-family: 'Lucida Sans', Arial;
 }
+#newEmail_input{
+    height: 40px;
+    width: 60%;
+    text-align: justify;
+    background-color: white;
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 1%;
+    margin-bottom: 1%; 
+    font-family: 'Lucida Sans', Arial;
+}
 #newUserPass_input{
     height: 40px;
     width: 60%;

@@ -1,4 +1,4 @@
-var socket = io.connect('http://localhost:8080', { 'forceNew': true });
+var socket = io.connect('http://localhost', { 'forceNew': true });
 var chatroom = document.getElementById("chatroom_div")
 let newMessage = document.getElementById("message")
 newMessage.addEventListener('keypress', function(e){

@@ -4,7 +4,8 @@ const fs = require('fs');
 const express = require("express")
 const app = express()
 const server = require("http").Server(app)
-const serverPort = 8080
+var nodemailer = require('nodemailer');
+const serverPort = 80
 var users
 var userName
 var files
@@ -14,6 +15,7 @@ app.engine('html', require('ejs').renderFile);
 server.listen(serverPort,()=>{
     console.log("Server online and listening to port: " + serverPort)
 })
+
 const io = require("socket.io")(server)
 app.use(bodyParser.urlencoded({ extended: false }))
 
@@ -34,12 +36,12 @@ app.get('/styles/login_style.css',(req,res)=>{
     res.sendFile(__dirname +"/public/styles/login_style.css")
 })
 
-//Signin Page
-app.get('/signin',(req,res)=>{
-    res.render(__dirname +"/public/views/signin.html")
+//Signup Page
+app.get('/signup',(req,res)=>{
+    res.render(__dirname +"/public/views/signup.html")
 })
-app.get('/styles/signin_style.css',(req,res)=>{
-    res.sendFile(__dirname +"/public/styles/signin_style.css")
+app.get('/styles/signup_style.css',(req,res)=>{
+    res.sendFile(__dirname +"/public/styles/signup_style.css")
 })
 
 //Chat Page Resourses
@@ -60,7 +62,7 @@ app.get('/codes/admin.js',(req,res)=>{
 app.post('/home',(req,res)=>{
     userName = req.body.userName
     let userPassword = req.body.userPass
-    con.query('SELECT * FROM users.userData WHERE userName = ' + mysql.escape(userName) +' AND userPassword = ' + mysql.escape(userPassword),(err,result,fields)=>{
+    con.query('SELECT * FROM users.userData WHERE userName = ' + mysql.escape(userName) +' AND userPassword = ' + mysql.escape(userPassword) +' AND isActive = 1',(err,result,fields)=>{
         if(err) throw err
         if(result.length > 0){
             ID = result[0].id
@@ -93,20 +95,42 @@ app.post('/home',(req,res)=>{
 app.post('/register',(req,res)=>{
     let newUserName = req.body.newUserName
     let newUserPassword = req.body.newUserPass
+    let newEmail = req.body.newEmail
     let userType = "user"
-    con.query('SELECT * FROM users.userData WHERE userName = ' + mysql.escape(newUserName),(err,result,fields)=>{
+    con.query('SELECT * FROM users.userData WHERE email = ' + mysql.escape(newEmail),(err,result,fields)=>{
         if(err) throw err
         if(result.length > 0){
-            res.write('choose another username')
+            res.write('Already Exist a User with this email')
             res.end()
         }else{
-            con.query('INSERT INTO users.userData (userType,userName,userPassword) VALUES (' + mysql.escape(userType) + ','+ mysql.escape(newUserName) + ',' + mysql.escape(newUserPassword) +')',(err,result,fields)=>{
+            let isActive = "0"
+            con.query('INSERT INTO users.userData (email,isActive,userType,userName,userPassword) VALUES (' + mysql.escape(newEmail) + ',' + mysql.escape(isActive) + ',' + mysql.escape(userType) + ','+ mysql.escape(newUserName) + ',' + mysql.escape(newUserPassword) +')',(err,result,fields)=>{
                 if(err) throw err
-        
-            })
-            fs.mkdir(__dirname + '/savedChats/' + newUserName,(err)=>{
-                if(err) console.log(err);
-                res.redirect('/')
+                fs.mkdir(__dirname + '/savedChats/' + newUserName,(err)=>{
+                    if(err) console.log(err);
+                    let url = "<a href='localhost/v/" + newEmail + "'>Verify Account!</a>" 
+                    var transporter = nodemailer.createTransport({
+                        service: 'gmail',
+                        auth: {
+                          user: 'santiago10.jbch@gmail.com',
+                          pass: 'Teclado12M.'
+                        }
+                      });
+                    var mailOptions = {
+                        from: 'santiago10.jbch@gmail.com',
+                        to: newEmail,
+                        subject: 'Confirm your acout --No reply--',
+                        html: url
+                    };
+                    transporter.sendMail(mailOptions, function(error, info){
+                        if (error) {
+                          console.log(error);
+                        } else {
+                          console.log('Email sent: ' + info.response);
+                        }
+                      });
+                    res.redirect('/')
+                })
             })
         }
         
@@ -114,6 +138,24 @@ app.post('/register',(req,res)=>{
     
 })
 
+app.get('/v/:email',(req,res)=>{
+    email = req.params.email
+    con.query('SELECT * FROM users.userdata WHERE email =' +  mysql.escape(email) +' AND isActive = 0',(err,result)=>{
+        if(err) console.log(err)
+        if(result.length > 0){
+            con.query('UPDATE users.userData SET isActive = 1 WHERE email=' + mysql.escape(email),(err)=>{
+                if(err) console.log(err)
+               
+            })
+            res.write("Account Succesfully Verified!")
+            res.end()
+        }else{
+            res.write("Cant reach this page")
+            res.end()
+        }
+    })
+    
+})
 io.on('connection',(socket)=>{
     socket.username = userName;
     con.query("SELECT fileName FROM users.savedchats WHERE ownerUsername=" + mysql.escape(socket.username) + " AND fileName <> 'autosave.html'",(err,result,fields)=>{
