@@ -6,6 +6,8 @@ const app = express()
 const server = require("http").Server(app)
 var nodemailer = require('nodemailer');
 const serverPort = 80
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('myTotalySecretKey');
 var users
 var userName
 var files
@@ -62,11 +64,11 @@ app.get('/codes/admin.js',(req,res)=>{
 app.post('/home',(req,res)=>{
     userName = req.body.userName
     let userPassword = req.body.userPass
-    con.query('SELECT * FROM users.userData WHERE userName = ' + mysql.escape(userName) +' AND userPassword = ' + mysql.escape(userPassword) +' AND isActive = 1',(err,result,fields)=>{
+    con.query('SELECT * FROM users.userData WHERE userName = ' + mysql.escape(userName) +' AND isActive = 1',(err,result,fields)=>{
         if(err) throw err
         if(result.length > 0){
             ID = result[0].id
-            if(result[0].userName == userName && result[0].userPassword == userPassword){
+            if(result[0].userName == userName && cryptr.decrypt(result[0].userPassword)  == userPassword){
                 if(result[0].userType == "user"){
                     res.render(__dirname + '/public/views/chat.html')
                     con.query("SELECT fileName FROM users.savedchats WHERE ownerUsername=" + mysql.escape(userName) + " AND fileName <> 'autosave.html'",(err,result,fields)=>{
@@ -94,9 +96,11 @@ app.post('/home',(req,res)=>{
 })
 app.post('/register',(req,res)=>{
     let newUserName = req.body.newUserName
-    let newUserPassword = req.body.newUserPass
+    let newUserPassword = cryptr.encrypt(req.body.newUserPass) 
     let newEmail = req.body.newEmail
     let userType = "user"
+    console.log(newUserPassword)
+    console.log(newEmail)
     con.query('SELECT * FROM users.userData WHERE email = ' + mysql.escape(newEmail),(err,result,fields)=>{
         if(err) throw err
         if(result.length > 0){
@@ -108,7 +112,7 @@ app.post('/register',(req,res)=>{
                 if(err) throw err
                 fs.mkdir(__dirname + '/savedChats/' + newUserName,(err)=>{
                     if(err) console.log(err);
-                    let url = "<a href='localhost/v/" + newEmail + "'>Verify Account!</a>" 
+                    let url = "<a href='localhost/v/" + cryptr.encrypt(newEmail) + "'>Verify Account!</a>" 
                     var transporter = nodemailer.createTransport({
                         service: 'gmail',
                         auth: {
@@ -139,7 +143,7 @@ app.post('/register',(req,res)=>{
 })
 
 app.get('/v/:email',(req,res)=>{
-    email = req.params.email
+    email = cryptr.decrypt(req.params.email) 
     con.query('SELECT * FROM users.userdata WHERE email =' +  mysql.escape(email) +' AND isActive = 0',(err,result)=>{
         if(err) console.log(err)
         if(result.length > 0){
