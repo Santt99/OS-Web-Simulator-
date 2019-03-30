@@ -5,7 +5,7 @@ In this project I learn Node.js, Express, Socket.io (Web Sockets), js callbacks,
 
 Technology Stack:
 
-  1. Node.jse 
+  1. Node.js
   2. Express
   3. Socket.io
   4. MySql
